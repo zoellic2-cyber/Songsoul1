@@ -67,6 +67,21 @@ jobs:
         with:
           gradle-version: '9.3.1'
 
+      - name: Create debug keystore
+        shell: bash
+        run: |
+          if [ ! -f "$PROJECT_DIR/debug.keystore" ]; then
+            keytool -genkeypair \
+              -keystore "$PROJECT_DIR/debug.keystore" \
+              -storepass android \
+              -keypass android \
+              -alias androiddebugkey \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+          fi
+
       - name: Build debug APK
         shell: bash
         run: |
